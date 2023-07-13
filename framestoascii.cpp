@@ -6,7 +6,7 @@
 
 using namespace cv;
 
-char brightness_scale[] = " .:-=+*#%@";
+char brightness_scale[] = "..:-=+*#%@";
 
 double toGreyscale(double red, double green, double blue)
 {
@@ -18,16 +18,11 @@ char greyscaleToChar(double greyscale_value)
 	int arr_size = sizeof(brightness_scale) - 1;
 	double threshold = (255.f / (arr_size / sizeof(char)));
 
-	greyscale_value = 254;
-
 	for(int i = 0; i < arr_size - 1; i++){
 		if(greyscale_value >= i * threshold && greyscale_value < (i+1) * threshold){
-//			printf("greyscale >= %f && greyscale < %f\n", i * threshold, (i+1) * threshold);
-//			printf("greyscale = %f i = %d\n", greyscale_value, i);
 			return brightness_scale[i];
 		}
 	}
-//	printf("shit\n");
 	return brightness_scale[arr_size - 1];
 }
 
@@ -44,8 +39,8 @@ int main()
 	printf("resolution = %d x %d\n", resolution.width, resolution.height);
 
 
-	int width = resolution.width;
-	int height = resolution.height;
+	int width;
+	int height;
 
 	int index = 0;
 
@@ -53,12 +48,13 @@ int main()
 
 	while(1)
 	{
-		index = 68;
+		// index = 68;
 		printf("frame = %d\n", index);
 		frame_path = "frames/frame_";
 		frame_path.append(std::to_string(index));
 		frame_path.append(".jpg");
-//		printf("frame_path = %s\n", frame_path.c_str());
+
+		//earliest frame
 		Mat og_img = imread(frame_path, IMREAD_COLOR); // load image in color format 
 
 		Size new_size(og_img.cols/10, og_img.rows/10);
@@ -66,8 +62,17 @@ int main()
 		Mat img;
 		
 		resize(og_img, img, new_size);
-		imshow("Resized Image", img);
-		waitKey(0);
+
+		Size resolution = img.size();
+
+		height = resolution.height;
+
+		width = resolution.width;
+
+		printf("resolution = %d x %d\n", resolution.width, resolution.height);
+
+		// imshow("Resized Image", img);
+		// waitKey(0);
 
 		//check if image isn't empty 
 		if(img.empty()){
@@ -80,9 +85,6 @@ int main()
 
 				double greyscale_value = toGreyscale(pixel[2], pixel[1], pixel[0]);
 
-				if(greyscale_value == 0)
-					break;
-
 				printf("%c", greyscaleToChar(greyscale_value));
 			}
 			printf("\n");
@@ -91,8 +93,8 @@ int main()
 
 		index++;
 
-		break;
-		usleep(250*1000);
+		// break;
+		usleep(100*1000);
 
 	}
 	printf("all good didn't crash\n");
