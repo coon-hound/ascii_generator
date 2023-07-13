@@ -46,22 +46,15 @@ int main()
 
 	printf("\x1b[2J\x1b[H");
 
+
 	while(1)
 	{
-		// index = 68;
-		printf("frame = %d\n", index);
 		frame_path = "frames/frame_";
 		frame_path.append(std::to_string(index));
 		frame_path.append(".jpg");
 
 		//earliest frame
-		Mat og_img = imread(frame_path, IMREAD_COLOR); // load image in color format 
-
-		Size new_size(og_img.cols, og_img.rows/2);
-
-		Mat img;
-		
-		resize(og_img, img, new_size);
+		Mat img = imread(frame_path, IMREAD_COLOR); // load image in color format 
 
 		Size resolution = img.size();
 
@@ -94,7 +87,7 @@ int main()
 		index++;
 
 		// break;
-		usleep(10*1000);
+		usleep(60*1000);
 
 	}
 	printf("all good didn't crash\n");
