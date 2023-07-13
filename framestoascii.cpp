@@ -6,7 +6,7 @@
 
 using namespace cv;
 
-char brightness_scale[] = "..:-=+*#%@";
+char brightness_scale[] = " .:-=+*#%@";
 
 double toGreyscale(double red, double green, double blue)
 {
@@ -57,7 +57,7 @@ int main()
 		//earliest frame
 		Mat og_img = imread(frame_path, IMREAD_COLOR); // load image in color format 
 
-		Size new_size(og_img.cols/10, og_img.rows/10);
+		Size new_size(og_img.cols, og_img.rows/2);
 
 		Mat img;
 		
@@ -94,7 +94,7 @@ int main()
 		index++;
 
 		// break;
-		usleep(100*1000);
+		usleep(10*1000);
 
 	}
 	printf("all good didn't crash\n");
